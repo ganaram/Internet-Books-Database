@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="es" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h1>Contacto</h1>
-  </body>
-</html>
+@extends('public.layout')
+
+@section('title', 'About IBDB')
+
+@section('content')
+    <h1>Contact</h1>
+@endsection
