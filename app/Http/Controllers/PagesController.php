@@ -11,20 +11,7 @@ class PagesController extends Controller
      */
     public function index()
     {
-      $books = [
-        [
-          'title' => 'El Quijote',
-          'author'=> 'Miguel de Cervantes'
-        ],
-        [
-          'title' => 'Moby Dick',
-          'author'=> 'Herman Melville'
-        ],
-        [
-          'title' => 'El señor de los anillos',
-          'author'=> 'J.R.R. Tolkien'
-        ]
-      ];
+      $books = \App\Book::all();
 
       //return view('public.index', ['books' => $libros]);
       //return view('public.index', compact('books'));
