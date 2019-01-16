@@ -11,6 +11,10 @@
 |
 */
 
+// Páginas estáticas
 Route::get('/', 'PagesController@index');
 Route::get('/contact', 'PagesController@contact');
 Route::get('/about', 'PagesController@about');
+
+// Rutas para la entidad Books
+Route::resource('/books', 'BooksController');
