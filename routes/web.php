@@ -12,9 +12,9 @@
 */
 
 // Páginas estáticas
-Route::get('/', 'PagesController@index');
-Route::get('/contact', 'PagesController@contact');
-Route::get('/about', 'PagesController@about');
+Route::get('/', 'PagesController@index')->name('root');
+Route::get('/contact', 'PagesController@contact')->name('contact');
+Route::get('/about', 'PagesController@about')->name('about');
 
 // Rutas para la entidad Books
 Route::resource('/books', 'BooksController');
