@@ -35,13 +35,23 @@ class BooksController extends Controller
      */
     public function store()
     {
-        $book = new Book;
+        request()->validate([
+            'title'         => 'required|min:3',
+            'author'        => 'required',
+            'description'    => 'required'
+        ],[
+            'title.required'=> 'El título es requerido.',
+            'title.min' => 'El título debe tener al menos 3 caracteres',
+            'author.required'=> 'El autor es requerido.',
+            'description.required'=> 'La descripción es requerida.',
+        ]);
 
-        $book->title = request('title');
-        $book->author = request('author');
-        $book->description = request('description');
-
-        $book->save();
+        Book::create([
+            'title' => request('title'),
+            'slug' => str_slug(request('title'), "-"),
+            'author' => request('author'),
+            'description' => request('description')
+        ]);
 
         return redirect('/');
     }
@@ -52,9 +62,9 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $book = Book::findOrFail($id);
+        $book = Book::where('slug', $slug)->firstOrFail();
 
         return view('public.books.show', ['book' => $book]);
     }
@@ -65,10 +75,8 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
-        $book = Book::findOrFail($id);
-
         return view('public.books.edit', ['book' => $book]);
     }
 
@@ -79,17 +87,27 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Book $book)
     {
-        $book = Book::findOrFail($id);
+        request()->validate([
+            'title'         => 'required|min:3',
+            'author'        => 'required',
+            'description'    => 'required'
+        ],[
+            'title.required'=> 'El título es requerido.',
+            'title.min' => 'El título debe tener al menos 3 caracteres',
+            'author.required'=> 'El autor es requerido.',
+            'description.required'=> 'La descripción es requerida.',
+        ]);
 
-        $book->title = request('title');
-        $book->author = request('author');
-        $book->description = request('description');
+        Book::update([
+            'title' => request('title'),
+            'slug' => str_slug(request('title'), "-"),
+            'author' => request('author'),
+            'description' => request('description')
+        ]);
 
-        $book->save();
-
-        return redirect('/books/'.$book->id);
+        return redirect('/books/'.$book->slug);
     }
 
     /**
@@ -98,9 +116,9 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        $book = Book::findOrFail($id)->delete();
+        $book->delete();
 
         return redirect('/');
     }

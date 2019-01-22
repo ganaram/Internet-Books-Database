@@ -18,7 +18,7 @@
                 @method('delete')
                 <button type="submit" class="btn btn-danger btn-sm">Delete Book</button>
             </form>
-            <a href="/books/{{ $book->id }}" class="btn btn-primary btn-sm mr-2 float-right">More Info</a>
+            <a href="/books/{{ $book->slug }}" class="btn btn-primary btn-sm mr-2 float-right">More Info</a>
             <a href="/books/{{ $book->id }}/edit" class="btn btn-warning btn-sm mr-2     float-right">Edit</a>
 
       </div>
