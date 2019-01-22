@@ -37,12 +37,13 @@ class BooksController extends Controller
     {
         request()->validate([
             'title'         => 'required|min:3',
-            'author'        => 'required',
+            'author'        => ['required','min:3'],
             'description'    => 'required'
         ],[
             'title.required'=> 'El título es requerido.',
             'title.min' => 'El título debe tener al menos 3 caracteres',
             'author.required'=> 'El autor es requerido.',
+            'author.min'    => 'El autor debe tener al menos 3 caracteres',
             'description.required'=> 'La descripción es requerida.',
         ]);
 
@@ -89,18 +90,19 @@ class BooksController extends Controller
      */
     public function update(Book $book)
     {
-        request()->validate([
+        $data = request()->validate([
             'title'         => 'required|min:3',
-            'author'        => 'required',
+            'author'        => ['required','min:3'],
             'description'    => 'required'
         ],[
             'title.required'=> 'El título es requerido.',
             'title.min' => 'El título debe tener al menos 3 caracteres',
             'author.required'=> 'El autor es requerido.',
+            'author.min'    => 'El autor debe tener al menos 3 caracteres',
             'description.required'=> 'La descripción es requerida.',
         ]);
 
-        Book::update([
+        $book->update([
             'title' => request('title'),
             'slug' => str_slug(request('title'), "-"),
             'author' => request('author'),
