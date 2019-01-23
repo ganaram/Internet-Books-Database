@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
 
 class BooksController extends Controller
 {
@@ -33,20 +34,8 @@ class BooksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(BookRequest $request)
     {
-        request()->validate([
-            'title'         => 'required|min:3',
-            'author'        => ['required','min:3'],
-            'description'    => 'required'
-        ],[
-            'title.required'=> 'El título es requerido.',
-            'title.min' => 'El título debe tener al menos 3 caracteres',
-            'author.required'=> 'El autor es requerido.',
-            'author.min'    => 'El autor debe tener al menos 3 caracteres',
-            'description.required'=> 'La descripción es requerida.',
-        ]);
-
         Book::create([
             'title' => request('title'),
             'slug' => str_slug(request('title'), "-"),
@@ -88,20 +77,8 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        $data = request()->validate([
-            'title'         => 'required|min:3',
-            'author'        => ['required','min:3'],
-            'description'    => 'required'
-        ],[
-            'title.required'=> 'El título es requerido.',
-            'title.min' => 'El título debe tener al menos 3 caracteres',
-            'author.required'=> 'El autor es requerido.',
-            'author.min'    => 'El autor debe tener al menos 3 caracteres',
-            'description.required'=> 'La descripción es requerida.',
-        ]);
-
         $book->update([
             'title' => request('title'),
             'slug' => str_slug(request('title'), "-"),
