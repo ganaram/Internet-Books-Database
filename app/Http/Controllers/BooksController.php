@@ -15,7 +15,9 @@ class BooksController extends Controller
      */
     public function index()
     {
-        return redirect('/');
+        $books = Book::paginate(10);
+
+        return view('public.books.index')->withBooks($books);
     }
 
     /**
