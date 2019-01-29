@@ -39,16 +39,20 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="{{ route('books.index') }}">List</a>
+                              @auth
                               <a class="dropdown-item" href="{{ route('books.create') }}">Create</a>
+                              @endauth
                             </div>
                         </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        @auth
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Contact</a>
                         </li>
+                        @endauth
                         <li class="nav-item">
                             <a class="nav-link" href="/about">About</a>
                         </li>
