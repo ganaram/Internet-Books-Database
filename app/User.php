@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Book::class);
     }
+
+    public function getFirstNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }
