@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return ucfirst($value);
     }
+
+    public function owns(Book $book)
+    {
+        return $this->id == $book->user_id;
+    }
 }

@@ -15,6 +15,9 @@ class BooksController extends Controller
         $this->middleware('auth', [
             'only' => ['create' , 'store', 'edit', 'update', 'destroy']
         ]);
+        $this->middleware('can:touch,book',[
+            'only' => ['edit','update','destroy']
+        ]);
     }
 
     /**
