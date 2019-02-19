@@ -66,6 +66,8 @@ class BooksController extends Controller
 
         $book->authors()->sync( request('author') );
 
+        
+
         return redirect('/');
     }
 
