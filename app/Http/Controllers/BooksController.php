@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Publisher;
 use App\Author;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
+use App\Notifications\BookCreated;
 
 class BooksController extends Controller
 {
@@ -27,7 +29,16 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = Book::latest()->paginate(10);
+        $books = Book::with(['user','authors','publisher'])
+                    ->latest()
+                    ->paginate(10);
+
+        // $condition = true;
+
+        // if($condition){
+        //     $books = $books->load(['user','authors','publisher'])
+        //                 ->latest()->paginate(10);
+        // }
 
         return view('public.books.index')->withBooks($books);
     }
@@ -56,7 +67,7 @@ class BooksController extends Controller
      */
     public function store(BookRequest $request)
     {
-        $cover = $request->file('cover');
+        //$cover = $request->file('cover');
 
         //dd($cover);
 
@@ -66,12 +77,13 @@ class BooksController extends Controller
             'title' => request('title'),
             'slug' => str_slug(request('title'), "-"),
             'description' => request('description'),
-            'cover' => $cover->store('covers','public'),
+            //'cover' => $cover->store('covers','public'),
         ]);
 
         $book->authors()->sync( request('author') );
 
-        
+        $user = User::find(1);
+        $user->notify(new BookCreated($book));
 
         return redirect('/');
     }
@@ -84,7 +96,7 @@ class BooksController extends Controller
      */
     public function show($slug)
     {
-        $book = Book::where('slug', $slug)->firstOrFail();
+        $book = Book::with('authors')->where('slug', $slug)->firstOrFail();
 
         return view('public.books.show', ['book' => $book]);
     }
@@ -119,6 +131,8 @@ class BooksController extends Controller
     {
         $cover = $request->file('cover');
         
+        dd($cover);
+
         $book->update([
             'title' => request('title'),
             'publisher_id' => request('publisher'),
